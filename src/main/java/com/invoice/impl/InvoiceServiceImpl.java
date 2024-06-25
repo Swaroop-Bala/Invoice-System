@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.invoice.dao.InvoiceDAO;
 import com.invoice.entity.InvoiceEntity;
 import com.invoice.helper.EntityModelMappers;
+import com.invoice.helper.ModelValidator;
 import com.invoice.model.InvoiceModel;
 import com.invoice.model.OverDueModel;
 import com.invoice.service.InvoiceService;
@@ -31,10 +32,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public ResponseEntity<?> addInvoice(InvoiceModel aInvoiceModel) throws Exception {
 		try {
+			if(ModelValidator.isValidAddInvoiceRequest(aInvoiceModel)) {
 			InvoiceEntity myInvoiceEntity = EntityModelMappers.mapAddInvoiceEntity(aInvoiceModel);
 			myInvoiceDAO.saveAndFlush(myInvoiceEntity);
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(EntityModelMappers.mapAddInvoiceModel(myInvoiceEntity));
+			}
+			
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("System Error : Validation failed");
 		} catch (Exception myException) {
 			logger.error(myException.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
