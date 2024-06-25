@@ -33,12 +33,12 @@ This service would process the overdue invoices and apply late fees for the due 
 
 ## Business Logic
 
--When a new invoice is added the invoice status should be defaulted to pending.
--When a payment is made against an invoice fully, the status should move to Paid from Pending
--When a payment is made against an invoice partially, the status should move to Paid from Pending, also a new invoice should be generated with the remaining amount, 
+- When a new invoice is added the invoice status should be defaulted to pending.
+- When a payment is made against an invoice fully, the status should move to Paid from Pending
+- When a payment is made against an invoice partially, the status should move to Paid from Pending, also a new invoice should be generated with the remaining amount, 
   with invoice status as pending, with the same due date.
   
--When a process-ovedue service is called, it should calculate the invoices which are pending and due from the current date.
+- When a process-ovedue service is called, it should calculate the invoices which are pending and due from the current date.
           a. if the due invoices do not have any payments against it, then cancel the existing invoice and generate a new invoice with today's date and due amount carrying from old invoice and adding the late fee.
 
 
