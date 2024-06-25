@@ -39,7 +39,7 @@ This service would process the overdue invoices and apply late fees for the due 
   with invoice status as pending, with the same due date.
   
 - When a process-ovedue service is called, it should calculate the invoices which are pending and due from the current date.
-          a. if the due invoices do not have any payments against it, then cancel the existing invoice and generate a new invoice with today's date and due amount carrying from old invoice and adding the late fee.
+          1. if the due invoices do not have any payments against it, then cancel the existing invoice and generate a new invoice with today's date and due amount carrying from old invoice and adding the late fee.
 
 
 
@@ -49,3 +49,7 @@ This service would process the overdue invoices and apply late fees for the due 
  - **log4j** - We have already implemented Log4j framework. But we can categorized it even more to have a better logging.
  - **Better Validations and User Friendly responses** - To validate the request body and provide back better user friendly messages
  - **Docker** - Docker integration would help us for easy deployments
+
+## Author
+
+- **Swaroop Balakrishnan**
