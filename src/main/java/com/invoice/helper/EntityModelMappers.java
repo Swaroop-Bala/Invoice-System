@@ -11,10 +11,19 @@ import org.apache.commons.lang3.StringUtils;
 import com.invoice.entity.InvoiceEntity;
 import com.invoice.model.InvoiceModel;
 
+
 public class EntityModelMappers {
 
 	final static DateTimeFormatter myDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+	
+	/**
+	 * Below Method helps in converting the Model Invoice to Model Entity Object
+	 * This covertion is required, prior to utilizing the repositories
+	 * @param InvoiceModel
+	 * @return InvoiceEntity
+	 * 
+	 */
 	public static InvoiceEntity mapAddInvoiceEntity(InvoiceModel aInvoice) throws ParseException {
 
 		InvoiceEntity myInvoiceEntity = new InvoiceEntity();
@@ -27,7 +36,12 @@ public class EntityModelMappers {
 		return myInvoiceEntity;
 
 	}
-
+	/**
+	 * Below Method helps in converting the Invoice ID from Entity back to Model so that in service 
+	 * response only invoice id would be listed
+	 * @param InvoiceEntity
+	 * @return InvoiceModel
+	 */
 	public static InvoiceModel mapAddInvoiceModel(InvoiceEntity aInvoiceEntity) {
 
 		InvoiceModel myInvoice = new InvoiceModel();
@@ -36,6 +50,12 @@ public class EntityModelMappers {
 		return myInvoice;
 	}
 
+	/**
+	 * Below Method helps in converting the List of Invoice Entity back to List of InvoiceModel so that in GET service 
+	 * response List of Invoice would be visible
+	 * @param List<InvoiceEntity>
+	 * @return List<InvoiceModel>
+	 */
 	public static List<InvoiceModel> mapGetInvoiceModelList(List<InvoiceEntity> myInvoiceEntity) {
 
 		List<InvoiceModel> myInvoiceList = new ArrayList<InvoiceModel>();
@@ -52,11 +72,5 @@ public class EntityModelMappers {
 		return myInvoiceList;
 	}
 
-	public static InvoiceEntity mapPaymentEntity(InvoiceModel aInvoiceModel) {
-
-		InvoiceEntity myInvoiceEntity = new InvoiceEntity();
-		myInvoiceEntity.setDueAmount(aInvoiceModel.getAmount());
-		return myInvoiceEntity;
-	}
 
 }
