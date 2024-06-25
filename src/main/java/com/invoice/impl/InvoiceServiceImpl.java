@@ -29,18 +29,23 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 	protected static final Logger logger = LogManager.getLogger();
 
+	/**
+	 *Below function would help in adding a new invoice to the system.
+	 *Within invoice model at least the amount and due date parameters are mandatory
+	 *@param aInvoiceModel
+	 *@return ResponseEntity with Invoice ID
+	 */
 	@Override
 	public ResponseEntity<?> addInvoice(InvoiceModel aInvoiceModel) throws Exception {
 		try {
-			if(ModelValidator.isValidAddInvoiceRequest(aInvoiceModel)) {
-			InvoiceEntity myInvoiceEntity = EntityModelMappers.mapAddInvoiceEntity(aInvoiceModel);
-			myInvoiceDAO.saveAndFlush(myInvoiceEntity);
-			return ResponseEntity.status(HttpStatus.CREATED)
-					.body(EntityModelMappers.mapAddInvoiceModel(myInvoiceEntity));
+			if (ModelValidator.isValidAddInvoiceRequest(aInvoiceModel)) {
+				InvoiceEntity myInvoiceEntity = EntityModelMappers.mapAddInvoiceEntity(aInvoiceModel);
+				myInvoiceDAO.saveAndFlush(myInvoiceEntity);
+				return ResponseEntity.status(HttpStatus.CREATED)
+						.body(EntityModelMappers.mapAddInvoiceModel(myInvoiceEntity));
 			}
-			
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("System Error : Validation failed");
+
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("System Error : Validation failed");
 		} catch (Exception myException) {
 			logger.error(myException.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -49,15 +54,19 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 	}
 
+	/**
+	 *Below function would help in fetching all the invoice from the system
+	 *@return ResponseEntity with Invoice Model List
+	 */
+	
 	@Override
 	public ResponseEntity<?> getInvoice() {
 		List<InvoiceEntity> myInvoiceEntity = new ArrayList<InvoiceEntity>();
 		try {
 			myInvoiceEntity = myInvoiceDAO.findAll();
-			if(myInvoiceEntity.isEmpty())
-				return ResponseEntity.status(HttpStatus.OK)
-						.body("No Invoices Available");
-				
+			if (myInvoiceEntity.isEmpty())
+				return ResponseEntity.status(HttpStatus.OK).body("No Invoices Available");
+
 			return ResponseEntity.status(HttpStatus.OK)
 					.body(EntityModelMappers.mapGetInvoiceModelList(myInvoiceEntity));
 		} catch (Exception myException) {
@@ -69,6 +78,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 	}
 
+	/**
+	 *Below function would help in process payment for a invoice.
+	 *atleast payment amount and invoice id should be passed in invoice Model
+	 *@param aInvoiceModel
+	 *@return ResponseEntity
+	 */
+	
 	@Override
 	public ResponseEntity<?> processPayments(InvoiceModel aInvoice) throws Exception {
 
@@ -109,6 +125,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 		}
 	}
 
+	/**
+	 *Below function would help in processOverdue.
+	 *Atleast the due days and late fee parameter needs to be passed within OverDueModel
+	 *@param OverDueModel
+	 *@return ResponseEntity
+	 */
+	
+	
 	@Override
 	public ResponseEntity<?> processOverdue(OverDueModel aOverDueModel) {
 
